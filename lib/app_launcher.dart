@@ -14,7 +14,7 @@ class AppLauncher extends StatefulWidget {
 }
 
 class _AppLauncherState extends State<AppLauncher> {
-  AppManagerController appManagerController = Get.find();
+  AppManagerController appManagerController = Get.put(AppManagerController());
   String filter = '';
   int getCount() {
     return MediaQuery.of(context).size.width ~/ 100.w;
@@ -23,9 +23,7 @@ class _AppLauncherState extends State<AppLauncher> {
   @override
   void initState() {
     super.initState();
-    appManagerController.getUserApp().then((_) {
-      appManagerController.cacheUserIcon();
-    });
+    appManagerController.getUserApp();
   }
 
   @override
@@ -71,9 +69,15 @@ class _AppLauncherState extends State<AppLauncher> {
                 itemBuilder: (c, i) {
                   AppInfo appInfo = apps[i];
                   return InkWell(
-                    onTap: () {
-                      AppManager.globalInstance.appChannel.openApp(
+                    onTap: () async {
+                      String main = await appManagerController.curChannel
+                          .getAppMainActivity(
                         appInfo.packageName,
+                      );
+                      Log.i('main : $main');
+                      appManagerController.curChannel.openApp(
+                        appInfo.packageName,
+                        main,
                       );
                     },
                     child: Column(
@@ -84,6 +88,7 @@ class _AppLauncherState extends State<AppLauncher> {
                           child: AppIconHeader(
                             key: Key(appInfo.packageName),
                             packageName: appInfo.packageName,
+                            channel: appManagerController.curChannel,
                           ),
                         ),
                         HighlightText(

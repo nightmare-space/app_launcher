@@ -42,8 +42,7 @@ class _AppLauncherState extends State<AppLauncher> {
         if (filter != null && filter.isNotEmpty) {
           // 移除不包含关键字的item
           apps.removeWhere((element) {
-            return !element.appName.toLowerCase().contains(filter) &&
-                !element.packageName.toLowerCase().contains(filter);
+            return !element.appName.toLowerCase().contains(filter) && !element.packageName.toLowerCase().contains(filter);
           });
         }
         return Column(
@@ -70,14 +69,14 @@ class _AppLauncherState extends State<AppLauncher> {
                   AppInfo appInfo = apps[i];
                   return InkWell(
                     onTap: () async {
-                      String main = await appManagerController.curChannel
-                          .getAppMainActivity(
+                      String main = await appManagerController.curChannel.getAppMainActivity(
                         appInfo.packageName,
                       );
                       Log.i('main : $main');
                       appManagerController.curChannel.openApp(
                         appInfo.packageName,
                         main,
+                        '0',
                       );
                     },
                     child: Column(

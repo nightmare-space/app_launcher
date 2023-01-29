@@ -16,7 +16,7 @@ dependencies:
     git: https://github.com/nightmare-space/global_repository
   cupertino_icons: ^1.0.2
 
-  flutter_spinkit: "^4.1.2"
+  flutter_spinkit: ^5.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -28,4 +28,4 @@ dependency_overrides:
   app_manager:
     path: ../app_manager
   applib_util:
-    path: /Users/nightmare/Desktop/nightmare-space/applib/applib_util
+    path: ../applib/applib_util
